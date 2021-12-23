@@ -8,6 +8,11 @@ public final class Deathchest extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        saveDefaultConfig();
+        if(getConfig().getBoolean("disabled")) {
+            getLogger().warning("Deathchest is disabled in the plugins/Deathchest/config.yml file.");
+            return;
+        }
         new PlayerDeathListener(this);
     }
 

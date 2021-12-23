@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,12 +15,16 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerDeathListener implements Listener {
 
+    private final FileConfiguration _config;
+
     public PlayerDeathListener(Deathchest plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        _config = plugin.getConfig();
     }
 
     @EventHandler
     public void onDeath(PlayerDeathEvent event) {
+        // Only do something if items would be dropped
         if(event.getDrops().isEmpty()) {
             return;
         }
@@ -28,6 +33,9 @@ public class PlayerDeathListener implements Listener {
         org.bukkit.block.data.type.Chest chestData2;
 
         Player player = event.getEntity().getPlayer();
+        if(player == null) {
+            return;
+        }
         Location loc = player.getLocation();
 
         //Grabbing items from dead player!
@@ -47,6 +55,7 @@ public class PlayerDeathListener implements Listener {
         //Placing chests
         //Single chest
         block1.setType(Material.CHEST);
+        //Double chest
         if (items.length >= 27) {
             block2.setType(Material.CHEST);
 
@@ -62,9 +71,13 @@ public class PlayerDeathListener implements Listener {
             block2.setBlockData(chestData2, true);
         }
 
-        //Updating the chest
+        //Updating the chest's name
         Chest bChest = (Chest) x1.getBlock().getState();
-        bChest.setCustomName(player.getName() + "'s death chest!");
+        String chestName = _config.getString("chest-name");
+        if(chestName != null && !chestName.isEmpty()) {
+            String chestNameResolved = chestName.replace("%playername%", player.getName());
+            bChest.setCustomName(chestNameResolved);
+        }
         bChest.update();
 
         //Adding items to chest
@@ -74,8 +87,18 @@ public class PlayerDeathListener implements Listener {
         event.getDrops().clear();
 
         //Sending messages to player. With chest location as well.
-        player.sendRawMessage("You died.. Get to your chest! Quick! Before someone else gets it!");
-        player.sendRawMessage("Coordinates for your chest: x: " + ChatColor.RED + loc.getBlockX() +
-                ChatColor.GREEN + " y: " + ChatColor.RED + loc.getBlockY() + ChatColor.GREEN + " z: " + ChatColor.RED + loc.getBlockZ());
+        String messageGeneral = _config.getString("information-message-general");
+        if(messageGeneral != null && !messageGeneral.isEmpty()) {
+            player.sendRawMessage(ChatColor.translateAlternateColorCodes('&', messageGeneral));
+        }
+
+        String messageLocation = _config.getString("information-message-location");
+        if(messageLocation != null && !messageLocation.isEmpty()) {
+            String messageLocationResolved = messageLocation
+                    .replace("%x%", Integer.toString(loc.getBlockX()))
+                    .replace("%y%", Integer.toString(loc.getBlockY()))
+                    .replace("%z%", Integer.toString(loc.getBlockZ()));
+            player.sendRawMessage(ChatColor.translateAlternateColorCodes('&',messageLocationResolved));
+        }
     }
 }
