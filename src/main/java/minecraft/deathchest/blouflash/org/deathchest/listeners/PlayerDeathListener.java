@@ -13,11 +13,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerDeathListener implements Listener {
-    private final Deathchest _plugin;
 
     public PlayerDeathListener(Deathchest plugin) {
-        _plugin = plugin;
-        _plugin.getServer().getPluginManager().registerEvents(this, _plugin);
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
