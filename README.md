@@ -4,3 +4,5 @@
 [![CodeQL](https://github.com/blouflashdb/deathchestmc/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/blouflashdb/deathchestmc/actions/workflows/codeql-analysis.yml)
 
 A Papermc plugin that creates a chest with the dropped items on player death.
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
