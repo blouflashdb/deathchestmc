@@ -1,0 +1,6 @@
+name: Deathchest
+version: '${project.version}'
+main: minecraft.deathchest.blouflash.org.deathchest.Deathchest
+api-version: 1.18
+authors: [ Blouflash ]
+description: A Papermc plugin that creates a chest with the dropped items on player death.
