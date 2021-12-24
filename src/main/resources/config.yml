@@ -1,4 +1,5 @@
 disabled: false
 chest-name: "%playername%'s Death Chest"
+chest-spawn-delay: 10
 information-message-general: "&aYou died.. Get to your chest! Quick! Before someone else gets it!"
 information-message-location: "&aCoordinates for your chest: x: &c%x% &ay: &c%y% &az: &c%z%"
