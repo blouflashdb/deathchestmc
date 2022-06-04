@@ -6,6 +6,6 @@
 A Papermc plugin that creates a chest with the dropped items on player death.\
 \
 Supported Minecraft Versions:
-- 1.18.1
+- 1.18.2
 
 [![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
